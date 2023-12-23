@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller</title>
+    <style>
+        img {
+            width: 50px; /* Adjust the size of the dice images */
+        }
+
+        #frequencyTable {
+            border-collapse: collapse;
+            width: 300px;
+            margin-top: 20px; /* Add margin for better spacing */
+        }
+
+        #frequencyTable th, #frequencyTable td {
+            border: 1px solid black; /* Add border */
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Dice Roller</h1>
+
+<!-- Display 12 dice images and a roll button -->
+<div id="diceContainer">
+    <!-- You can use a loop to generate the dice elements dynamically -->
+    <!-- For simplicity, I'm manually adding 12 dice elements here -->
+    <img class="die" src="die1.png" alt="Die 1">
+    <img class="die" src="die1.png" alt="Die 2">
+    <img class="die" src="die1.png" alt="Die 3">
+    <img class="die" src="die1.png" alt="Die 4">
+    <img class="die" src="die1.png" alt="Die 5">
+    <img class="die" src="die1.png" alt="Die 6">
+    <img class="die" src="die1.png" alt="Die 7">
+    <img class="die" src="die1.png" alt="Die 8">
+    <img class="die" src="die1.png" alt="Die 9">
+    <img class="die" src="die1.png" alt="Die 10">
+    <img class="die" src="die1.png" alt="Die 11">
+    <img class="die" src="die1.png" alt="Die 12">
+</div>
+
+<button id="rollButton">Roll Dice</button>
+
+<!-- Display frequency table -->
+<div id="frequencyTable">
+    <h2>Frequency Table</h2>
+    <table>
+        <tr>
+            <th>Face</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+        </tr>
+        <tr>
+            <td>Frequency</td>
+            <td id="frequency1">0</td>
+            <td id="frequency2">0</td>
+            <td id="frequency3">0</td>
+            <td id="frequency4">0</td>
+            <td id="frequency5">0</td>
+            <td id="frequency6">0</td>
+        </tr>
+        <tr>
+            <td>Percentage</td>
+            <td id="percentage1">0%</td>
+            <td id="percentage2">0%</td>
+            <td id="percentage3">0%</td>
+            <td id="percentage4">0%</td>
+            <td id="percentage5">0%</td>
+            <td id="percentage6">0%</td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    var diceImages = document.querySelectorAll('.die');
+    var frequencies = new Array(6).fill(0);
+
+    // register button listener
+    document.getElementById("rollButton").addEventListener("click", rollDice);
+
+    // roll the dice
+    function rollDice() {
+        diceImages.forEach(setImage);
+        updateFrequencyTable();
+    }
+
+    // set image source for a die
+    function setImage(dieImg) {
+        var dieValue = Math.floor(1 + Math.random() * 6);
+        dieImg.src = "die" + dieValue + ".png";
+        dieImg.alt = "Die image with " + dieValue + " spot(s)";
+        frequencies[dieValue - 1]++;
+    }
+
+    // update frequency table in the page
+    function updateFrequencyTable() {
+        var total = frequencies.reduce((acc, val) => acc + val, 0);
+        
+        for (var i = 0; i < frequencies.length; i++) {
+            var frequencyElement = document.getElementById("frequency" + (i + 1));
+            var percentageElement = document.getElementById("percentage" + (i + 1));
+
+            frequencyElement.textContent = frequencies[i];
+            percentageElement.textContent = ((frequencies[i] / total) * 100).toFixed(2) + "%";
+        }
+    }
+</script>
+
+</body>
+</html>
